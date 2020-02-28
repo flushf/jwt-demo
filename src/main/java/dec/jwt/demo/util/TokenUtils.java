@@ -2,6 +2,7 @@ package dec.jwt.demo.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import dec.jwt.demo.constant.SecretConstant;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class TokenUtils {
 
     public static String getToken(String id) {
         String token = "";
-        token = JWT.create().withAudience(id)
+        token = JWT.create().withAudience(AESSecretUtil.encryptToStr(id, SecretConstant.DATA_KEY))
                 .withExpiresAt(new Date(System.currentTimeMillis() +EX_TIME))
                 .sign(Algorithm.HMAC256(getSecret(id)));
         return token;
